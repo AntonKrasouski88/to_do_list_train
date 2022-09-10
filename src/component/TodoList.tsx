@@ -9,6 +9,7 @@ export type TaskType = {
 }
 
 type TodoListPropsType = {
+    id: string
     title: string
     tasks: Array<TaskType>
     filter: (filter: FilterType) => void

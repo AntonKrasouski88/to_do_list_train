@@ -4,9 +4,18 @@ import {v1} from "uuid";
 import {TaskType, TodoList} from "./component/TodoList";
 
 export type FilterType = 'all' | 'active' | 'completed';
+export type TodolistType = {
+    id: string
+    title: string
+    filter: FilterType
+}
 function App() {
-    const title = 'What to learn';
-    const [tasks, setTasks] = useState<Array<TaskType>>([
+    let [toDoLists, setToDoLists] = useState<Array<TodolistType>>([
+        {id: v1(), title: "What to learn", filter: 'all'},
+        {id: v1(), title: "What to buy", filter: 'all'},
+    ])
+
+    let [tasks, setTasks] = useState<Array<TaskType>>([
         {id: v1(), title: 'HTMl&CSS', isDone: true},
         {id: v1(), title: 'Javascript', isDone: true},
         {id: v1(), title: 'React', isDone: true},
@@ -18,7 +27,7 @@ function App() {
         setFilter(filter);
     }
 
-    let showTask;
+    let showTask:Array<TaskType>;
     switch (filter) {
         case 'active':
             showTask = tasks.filter(value => !value.isDone);
@@ -50,14 +59,23 @@ function App() {
 
     return (
         <div className="App">
-            < TodoList
-                title ={title}
-                tasks = {showTask}
-                filter = {changeFilter}
-                removeTask={removeTask}
-                addTask = {addTask}
-                changeIsDone={changeIsDone}
-            />
+            {
+                toDoLists.map(todolist => {
+                    return (
+                        < TodoList
+                            key = {todolist.id}
+                            id = {todolist.id}
+                            title ={todolist.title}
+                            tasks = {showTask}
+                            filter = {changeFilter}
+                            removeTask={removeTask}
+                            addTask = {addTask}
+                            changeIsDone={changeIsDone}
+                        />
+                    )
+                })
+            }
+
         </div>
     );
 }
