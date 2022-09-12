@@ -9,3 +9,12 @@
 .isDone {
     opacity: 0.5;
 }
+
+.title {
+    display: flex;
+}
+.button_title {
+    margin-top: 23px;
+    margin-left: 20px;
+    height: 20px;
+}

@@ -17,6 +17,7 @@ type TodoListPropsType = {
     addTask: (toDoListID: string, task: string) => void
     changeIsDone: (toDoListID: string, id: string, isDone: boolean)=>void
     filter: FilterType
+    removeListTasks: (toDoListId: string)=> void
 }
 
 export const TodoList = (props: TodoListPropsType) => {
@@ -49,10 +50,16 @@ export const TodoList = (props: TodoListPropsType) => {
 
     }
     const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && onClickHandler();
+    const onClickRemoveListHandler = () => {
+        props.removeListTasks(props.id);
+    }
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <div className={s.title}>
+                <h3>{props.title}</h3>
+                <button className={s.button_title} onClick={onClickRemoveListHandler}>X</button>
+            </div>
             <div>
                 <input className={error ? s.error: ''} value = {task} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
                 <button onClick={onClickHandler}>+</button>

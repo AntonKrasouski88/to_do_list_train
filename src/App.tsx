@@ -71,6 +71,9 @@ function App() {
         setTasks({...tasks, [toDoListID]: tasks[toDoListID].map(t => t.id === id ? {...t, isDone}: t)})
 
     }
+    function removeListTasks (toDoListId: string) {
+        setToDoLists([...toDoLists.filter(value => value.id !== toDoListId)])
+    }
 
 
     return (
@@ -101,6 +104,7 @@ function App() {
                             addTask = {addTask}
                             changeIsDone={changeIsDone}
                             filter = {todolist.filter}
+                            removeListTasks = {removeListTasks}
                         />
                     )
                 })
