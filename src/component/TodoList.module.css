@@ -1,1 +1,11 @@
-.error {border-color: red}
+.error {
+    border-color: red
+}
+
+.button_active {
+    background: gold;
+}
+
+.isDone {
+    opacity: 0.5;
+}

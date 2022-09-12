@@ -12,23 +12,24 @@ type TodoListPropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
-    filter: (filter: FilterType) => void
-    removeTask: (id: string) => void
-    addTask: (task: string) => void
-    changeIsDone: (id: string, isDone: boolean)=>void
+    changeFilter: (id: string, filter: FilterType) => void
+    removeTask: (tlID: string, id: string) => void
+    addTask: (toDoListID: string, task: string) => void
+    changeIsDone: (toDoListID: string, id: string, isDone: boolean)=>void
+    filter: FilterType
 }
 
 export const TodoList = (props: TodoListPropsType) => {
     const [error, setError] = useState<boolean>(false)
     const moveToDoList = props.tasks.map(value => {
         const onChangeInputHandler = (event:ChangeEvent<HTMLInputElement>) => {
-            props.changeIsDone(value.id, event.currentTarget.checked)
+            props.changeIsDone(props.id, value.id, event.currentTarget.checked)
         }
         return (
-            <li key={value.id}>
+            <li key={value.id} className={value.isDone ? s.isDone: ''}>
                 <input type="checkbox" checked={value.isDone}  onChange={onChangeInputHandler}/>
                 <span>{value.title}</span>
-                <button onClick={()=>{props.removeTask(value.id)}}>x</button>
+                <button onClick={()=>{props.removeTask(props.id, value.id)}}>x</button>
             </li>
         )
     })
@@ -39,7 +40,7 @@ export const TodoList = (props: TodoListPropsType) => {
     }
     const onClickHandler = () => {
         if (task.trim() !== '') {
-            props.addTask(task.trim())
+            props.addTask(props.id ,task.trim())
             setTask('')
         } else {
             setError(true);
@@ -48,7 +49,6 @@ export const TodoList = (props: TodoListPropsType) => {
 
     }
     const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && onClickHandler();
-
 
     return (
         <div>
@@ -62,9 +62,9 @@ export const TodoList = (props: TodoListPropsType) => {
                 {moveToDoList}
             </ul>
             <div>
-                <button onClick={()=>{props.filter('all')}}>All</button>
-                <button onClick={()=>{props.filter('active')}}>Active</button>
-                <button onClick={()=>{props.filter('completed')}}>Completed</button>
+                <button className={props.filter === 'all' ? s.button_active: ''} onClick={()=>{props.changeFilter(props.id, 'all')}}>All</button>
+                <button className={props.filter === 'active' ? s.button_active: ''} onClick={()=>{props.changeFilter(props.id, 'active')}}>Active</button>
+                <button className={props.filter === 'completed' ? s.button_active: ''} onClick={()=>{props.changeFilter(props.id, 'completed')}}>Completed</button>
             </div>
         </div>
     );
