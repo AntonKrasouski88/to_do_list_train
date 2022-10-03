@@ -1,6 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterType} from "../App";
 import s from './TodoList.module.css'
+import {ItemAddForm} from "./itemAddForm/ItemAddForm";
 
 export type TaskType = {
     id: string
@@ -21,7 +22,7 @@ type TodoListPropsType = {
 }
 
 export const TodoList = (props: TodoListPropsType) => {
-    const [error, setError] = useState<boolean>(false)
+    //const [error, setError] = useState<boolean>(false)
     const moveToDoList = props.tasks.map(value => {
         const onChangeInputHandler = (event:ChangeEvent<HTMLInputElement>) => {
             props.changeIsDone(props.id, value.id, event.currentTarget.checked)
@@ -34,8 +35,8 @@ export const TodoList = (props: TodoListPropsType) => {
             </li>
         )
     })
-    const [task, setTask] = useState('');
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //const [task, setTask] = useState('');
+    /*const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setTask(event.currentTarget.value)
         setError(false)
     }
@@ -49,9 +50,13 @@ export const TodoList = (props: TodoListPropsType) => {
         }
 
     }
-    const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && onClickHandler();
+    const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && onClickHandler();*/
     const onClickRemoveListHandler = () => {
         props.removeListTasks(props.id);
+    }
+
+    const addTask = (title: string) => {
+        props.addTask(props.id, title)
     }
 
     return (
@@ -61,9 +66,7 @@ export const TodoList = (props: TodoListPropsType) => {
                 <button className={s.button_title} onClick={onClickRemoveListHandler}>X</button>
             </div>
             <div>
-                <input className={error ? s.error: ''} value = {task} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
-                <button onClick={onClickHandler}>+</button>
-                {error && <div>Error:The field is empty</div>}
+                <ItemAddForm addTask={addTask}/>
             </div>
             <ul>
                 {moveToDoList}
