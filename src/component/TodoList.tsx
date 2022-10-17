@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {FilterType} from "../App";
-import { AddItemForm } from './AddItemForm';
 import s from './TodoList.module.css'
+import {ItemAddForm} from "./itemAddForm/ItemAddForm";
 
 export type TaskType = {
     id: string
@@ -22,6 +22,7 @@ type TodoListPropsType = {
 }
 
 export const TodoList = (props: TodoListPropsType) => {
+
     const moveToDoList = props.tasks.map(value => {
         const onChangeInputHandler = (event:ChangeEvent<HTMLInputElement>) => {
             props.changeIsDone(props.id, value.id, event.currentTarget.checked)
@@ -34,10 +35,11 @@ export const TodoList = (props: TodoListPropsType) => {
             </li>
         )
     })
-    
+
     const onClickRemoveListHandler = () => {
         props.removeListTasks(props.id);
     }
+
     const addTask = (title: string) => {
         props.addTask(props.id, title)
     }
@@ -48,7 +50,7 @@ export const TodoList = (props: TodoListPropsType) => {
                 <h3>{props.title}</h3>
                 <button className={s.button_title} onClick={onClickRemoveListHandler}>X</button>
             </div>
-            <AddItemForm addItem={addTask}/>
+            <ItemAddForm addItem={addTask}/>
             <ul>
                 {moveToDoList}
             </ul>

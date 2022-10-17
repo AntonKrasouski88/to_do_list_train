@@ -10,6 +10,9 @@
     opacity: 0.5;
 }
 
+.text_error {
+    color: red;
+}
 .title {
     display: flex;
 }
