@@ -1,5 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterType} from "../App";
+import { AddItemForm } from './AddItemForm';
 import s from './TodoList.module.css'
 
 export type TaskType = {
@@ -21,7 +22,6 @@ type TodoListPropsType = {
 }
 
 export const TodoList = (props: TodoListPropsType) => {
-    const [error, setError] = useState<boolean>(false)
     const moveToDoList = props.tasks.map(value => {
         const onChangeInputHandler = (event:ChangeEvent<HTMLInputElement>) => {
             props.changeIsDone(props.id, value.id, event.currentTarget.checked)
@@ -34,24 +34,12 @@ export const TodoList = (props: TodoListPropsType) => {
             </li>
         )
     })
-    const [task, setTask] = useState('');
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTask(event.currentTarget.value)
-        setError(false)
-    }
-    const onClickHandler = () => {
-        if (task.trim() !== '') {
-            props.addTask(props.id ,task.trim())
-            setTask('')
-        } else {
-            setError(true);
-            setTask('')
-        }
-
-    }
-    const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && onClickHandler();
+    
     const onClickRemoveListHandler = () => {
         props.removeListTasks(props.id);
+    }
+    const addTask = (title: string) => {
+        props.addTask(props.id, title)
     }
 
     return (
@@ -60,11 +48,7 @@ export const TodoList = (props: TodoListPropsType) => {
                 <h3>{props.title}</h3>
                 <button className={s.button_title} onClick={onClickRemoveListHandler}>X</button>
             </div>
-            <div>
-                <input className={error ? s.error: ''} value = {task} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
-                <button onClick={onClickHandler}>+</button>
-                {error && <div>Error:The field is empty</div>}
-            </div>
+            <AddItemForm addItem={addTask}/>
             <ul>
                 {moveToDoList}
             </ul>
@@ -76,3 +60,5 @@ export const TodoList = (props: TodoListPropsType) => {
         </div>
     );
 };
+
+
